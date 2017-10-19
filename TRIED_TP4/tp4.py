@@ -7,6 +7,7 @@ import matplotlib.cm as cmx
 import pandas as pd
 import prince
 import triedacp
+import triedtools
 
 
 def centre_and_reduce(X):
@@ -145,11 +146,11 @@ contrib_sum = np.sum(contrib, 0)
 # output is:
 # [ 1.  1.  1.  1.  1.]
 
-# calc mean temps
+# calc mean temps for each month across all locations
 mean_temps = np.mean(clim_t2[:, 2:], 1)
 
 # create new figure
-fig = plt.figure(num=None, figsize=(10, 6), dpi=80, facecolor='w', edgecolor='k')
+fig = plt.figure(num=None, figsize=(20, 10), dpi=80, facecolor='w', edgecolor='k')
 plt.title('Scatter-plot of instances in variable space')
 plt.ylabel('PC2')
 plt.xlabel('PC1')
@@ -190,3 +191,117 @@ plt.show()
 fig.savefig('pca-nuage-1-2.png')
 
 
+# ************************
+# calculate mean temps for each location across each month
+
+mean_temps_monthly = []
+for i in np.arange(12):
+    mean_temps_monthly.append(np.mean(clim_t2[i::12, 2:], 0))
+mean_temps_monthly = np.array(mean_temps_monthly)
+
+
+# create new figure
+fig = plt.figure(num=None, figsize=(20, 8), dpi=80, facecolor='w', edgecolor='k')
+plt.title('Plot of average monthly temperatures for 9 locations')
+plt.xlabel('Month')
+plt.ylabel('Average Temperature (degrees C)')
+months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin',
+          'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre']
+plt.xticks(np.arange(len(months)), months, rotation=25)
+
+jet = plt.get_cmap('jet')
+cNorm = colors.Normalize(vmin=0, vmax=values[-1])
+scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
+
+ville = ['Reykjavik', 'Oslo', 'Paris', 'New York', 'Tunis', 'Alger', 'Beyrouth', 'Atlan27N40W', 'Dakar']
+values = range(len(ville))
+
+for i in values:
+    colorVal = scalarMap.to_rgba(values[i])
+    plt.plot(np.arange(len(months)), mean_temps_monthly[:, i], color=colorVal, label=ville[i])
+
+plt.legend()
+plt.show()
+
+fig.savefig('average_monthly_temps.png')
+
+
+# ************************
+# Load co2 values
+
+mat_dict = loadmat('/Users/carl/Dropbox/Docs/Python/PyCharm/TRIED_RNRF_GIT/TRIED_TP4/clim_co2_J1982D2010.mat')
+clim_co2 = mat_dict['clim_co2']
+
+# find out what type is in the dict
+if isinstance(clim_co2, list):
+    print('list')
+elif isinstance(clim_co2, np.ndarray):
+    print('ndarray')
+else:
+    print('something else')
+
+print(np.shape(clim_co2))
+
+# ************************
+# Calculate linear regression of co2
+
+b0, b1, s, R2, sigb0, sigb1 = triedtools.linreg(clim_co2[:, 0] + (clim_co2[:, 1] / 12), clim_co2[:, 2])
+
+# ************************
+# Subtract from each co2 value it's corresponding point on the linreg line
+
+# create list of just co2 values
+clim_co2_cor = np.array(clim_co2[:, 2])
+
+# create list of indices to use in calculation
+indices = np.arange(np.size(clim_co2_cor, 0))
+
+# increment all indices by 1, so the list starts from 1
+indices = indices + 1
+
+# divide all indices by 12, so the values represent steps in years
+indices = indices / 12
+
+# multiply all indices by b1, so the values represent the values of the linreg line
+indices = indices * b1
+
+# calculate diffs between co2 and linreg line
+clim_co2_cor = clim_co2_cor - indices
+
+# ************************
+# Plot XU scatter as before, using co2 differences as colour values
+
+# create new figure
+fig = plt.figure(num=None, figsize=(20, 10), dpi=80, facecolor='w', edgecolor='k')
+plt.title('Scatter-plot of instances in variable space')
+plt.ylabel('PC2')
+plt.xlabel('PC1')
+plt.axhline(0, color='k')
+plt.axvline(0, color='k')
+
+jet = plt.get_cmap('jet')
+cNorm = colors.Normalize(vmin=clim_co2_cor.min(), vmax=clim_co2_cor.max())
+scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
+colorVals = scalarMap.to_rgba(clim_co2_cor)
+
+sc = plt.scatter(XU[:, 0], XU[:, 1], marker='None', c=clim_co2_cor, cmap=jet)
+
+plt.scatter(XU[1::12, 0], XU[1::12, 1], marker='o', c=colorVals[1::12, :], label='Jan')
+plt.scatter(XU[2::12, 0], XU[2::12, 1], marker=',', c=colorVals[2::12, :], label='Feb')
+plt.scatter(XU[3::12, 0], XU[3::12, 1], marker='v', c=colorVals[3::12, :], label='Mar')
+plt.scatter(XU[4::12, 0], XU[4::12, 1], marker='8', c=colorVals[4::12, :], label='Apr')
+plt.scatter(XU[5::12, 0], XU[5::12, 1], marker='+', c=colorVals[5::12, :], label='May')
+plt.scatter(XU[6::12, 0], XU[6::12, 1], marker='D', c=colorVals[6::12, :], label='Jun')
+plt.scatter(XU[7::12, 0], XU[7::12, 1], marker='*', c=colorVals[7::12, :], label='Jul')
+plt.scatter(XU[8::12, 0], XU[8::12, 1], marker='_', c=colorVals[8::12, :], label='Aug')
+plt.scatter(XU[9::12, 0], XU[9::12, 1], marker='^', c=colorVals[9::12, :], label='Sep')
+plt.scatter(XU[10::12, 0], XU[10::12, 1], marker='x', c=colorVals[10::12, :], label='Oct')
+plt.scatter(XU[11::12, 0], XU[11::12, 1], marker='|', c=colorVals[11::12, :], label='Nov')
+plt.scatter(XU[12::12, 0], XU[12::12, 1], marker='p', c=colorVals[12::12, :], label='Dec')
+
+plt.colorbar(sc)
+
+plt.legend()
+plt.show()
+
+fig.savefig('pca-nuage-1-2-co2.png')

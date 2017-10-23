@@ -8,6 +8,10 @@ import pandas as pd
 import prince
 import triedacp
 import triedtools
+from prettytable import PrettyTable
+import numpy.matlib as nm
+
+
 
 
 def centre_and_reduce(X):
@@ -266,9 +270,11 @@ fig.savefig('part2_corr_circle_average_vectors.png')
 
 # get eigenvalues & eigenvectors, and project onto principal axes
 eigval, eigvec, XU = triedacp.acp(clim_t2_centered_reduced)
+# eigval, eigvec, XU = triedacp.acp(clim_t2[:, 2:].T)
 
 #  qual : Les qualités de réprésentation des individus par les axes
 #  contrib: Les contributions des individus à la formation des axes
+# for first two principal axes / eigenvalues only
 qual, contrib = triedacp.qltctr2(XU, eigval)
 
 # verify that the sum of representations of each individual equals one (over each row)
@@ -279,5 +285,66 @@ qual_sum = np.sum(qual, 1)
 # verify that the sum of contributions to each axis equals one (over each col)
 contrib_sum = np.sum(contrib, 0)
 # output is:
-# [ 1.  1.  1.  1.  1.]
+# [ 1.  1.]
 
+# print(contrib[:, 0:2].astype(float))
+
+labels = ['Reykjavik', 'Oslo', 'Paris', 'New York', 'Tunis', 'Alger', 'Beyrouth', 'Atlan27N40W', 'Dakar']
+
+# print out pretty table of X_centered
+ptable = PrettyTable()
+ptable.add_column('Location', labels)
+ptable.add_column('PC1', np.round(contrib[:, 0].astype(float), 3))
+ptable.add_column('PC2', np.round(contrib[:, 1].astype(float), 3))
+ptable.align = 'r'
+print(ptable)
+
+
+# create new figure
+fig = plt.figure()
+plt.title('Contributions of each city to principal components 1 and 2')
+plt.ylabel('Contribution')
+plt.xlabel('Cities')
+values = range(9)
+
+plt.plot(values, np.round(contrib[:, 0].astype(float), 3), 'bo-', markersize=5, label='PC 1')
+plt.plot(values, np.round(contrib[:, 1].astype(float), 3), 'gs-', markersize=5, label='PC 2')
+
+plt.xticks(values, ville[:], rotation=25)
+plt.legend()
+plt.show()
+
+fig.savefig('part2_contributions_1_2.png')
+
+# ************************
+# Plot locations on pc1 and pc2
+
+# create new figure
+fig = plt.figure()
+plt.title('Cities plotted against PC 1 and 2')
+plt.ylabel('PC 2')
+plt.xlabel('PC 1')
+plt.axhline(0, color='k')
+plt.axvline(0, color='k')
+
+jet = plt.get_cmap('jet')
+cNorm = colors.Normalize(vmin=0, vmax=values[-1])
+scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
+
+qualfull = np.array(qual[:, 0].astype(float))
+qualdiff = qualfull - min(qualfull)
+qualrange = qualdiff / max(qualdiff)
+qualmarker = (qualrange + 0.01) * 3
+
+
+s = [20*2**n for n in qualmarker]
+
+for i in range(9):
+    colorVal = scalarMap.to_rgba(values[i])
+    plt.scatter(XU[i, 0], XU[i, 1], color=colorVal, label=ville[i], marker='v', s=s[i])
+    plt.text(XU[i, 0] + 0.2, XU[i, 1] + 0.2, ville[i], fontsize=9)
+
+plt.legend()
+plt.show()
+
+fig.savefig('part2_cities_plotted_with_quality.png')

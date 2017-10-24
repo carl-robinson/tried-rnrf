@@ -321,7 +321,7 @@ fig.savefig('part2_contributions_1_2.png')
 
 # create new figure
 fig = plt.figure()
-plt.title('Cities plotted against PC 1 and 2')
+plt.title('Cities plotted against PC 1 and PC2, with quality of representation')
 plt.ylabel('PC 2')
 plt.xlabel('PC 1')
 plt.axhline(0, color='k')
@@ -331,7 +331,7 @@ jet = plt.get_cmap('jet')
 cNorm = colors.Normalize(vmin=0, vmax=values[-1])
 scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
 
-qualfull = np.array(qual[:, 0].astype(float))
+qualfull = np.array(qual[:, 0].astype(float)) + np.array(qual[:, 1].astype(float))
 qualdiff = qualfull - min(qualfull)
 qualrange = qualdiff / max(qualdiff)
 qualmarker = (qualrange + 0.01) * 3
@@ -342,9 +342,165 @@ s = [20*2**n for n in qualmarker]
 for i in range(9):
     colorVal = scalarMap.to_rgba(values[i])
     plt.scatter(XU[i, 0], XU[i, 1], color=colorVal, label=ville[i], marker='v', s=s[i])
-    plt.text(XU[i, 0] + 0.2, XU[i, 1] + 0.2, ville[i], fontsize=9)
+    plt.text(XU[i, 0] + 0.4, XU[i, 1] + 0.2, ville[i], fontsize=9)
+    plt.text(XU[i, 0] + 0.4, XU[i, 1] - 0.2, np.round(qualfull[i], 2), fontsize=9)
 
 plt.legend()
 plt.show()
 
 fig.savefig('part2_cities_plotted_with_quality.png')
+
+# ************************
+# Plot scatter of pc1 against cities
+
+# create new figure
+fig = plt.figure()
+plt.title('PC 1 value for all cities')
+plt.ylabel('PC 1')
+plt.xlabel('Cities')
+
+plt.scatter(values, XU[:, 0], color='b', label='PC1', marker='o')
+plt.xticks(values, ville[:], rotation=25)
+
+plt.legend()
+plt.show()
+
+fig.savefig('part2_cities_plotted_with_pc1.png')
+
+# ************************
+# Plot scatter of pc1 against cities
+
+# create new figure
+fig = plt.figure()
+plt.title('PC 2 value for all cities')
+plt.ylabel('PC 2')
+plt.xlabel('Cities')
+
+plt.scatter(values, XU[:, 1], color='b', label='PC 2', marker='o')
+plt.xticks(values, ville[:], rotation=25)
+
+plt.legend()
+plt.show()
+
+fig.savefig('part2_cities_plotted_with_pc2.png')
+
+# ************************
+# Plot scatter of average temperatures of cities
+
+# create new figure
+fig = plt.figure()
+plt.title('Average temperatures of cities over entire period')
+plt.ylabel('Average Temperature')
+plt.xlabel('Cities')
+
+plt.scatter(values, clim_t2[:, 2:].mean(axis=0), color='b', label='Average Temperature', marker='o')
+plt.xticks(values, ville[:], rotation=25)
+
+plt.legend()
+plt.show()
+
+fig.savefig('part2_cities_plotted_with_mean_temp.png')
+
+
+# ************************
+# Calc mean monthly temps for each city
+
+# mean_temps = np.reshape(clim_t2[:, 2:], (9, 12, -1))
+
+mean_temps = []
+
+for i in range(9):
+    l = []
+    for j in range(12):
+        l.append(np.mean(clim_t2[j::12, i+2]))
+    mean_temps.append(l)
+
+
+std_temps = []
+
+for i in range(9):
+    l = []
+    for j in range(12):
+        # l.append(np.std(clim_t2[j::12, i+2]))
+        l.append(np.std(clim_t2[j::12, 2:]))
+    std_temps.append(l)
+
+
+mean_temps_global = []
+
+for j in range(12):
+    mean_temps_global.append(np.mean(clim_t2[j::12, 2:]))
+
+
+norm_temps = []
+
+for i in range(9):
+    l = []
+    for j in range(12):
+        l.append(mean_temps[i][j] - mean_temps_global[j])
+    norm_temps.append(l)
+
+for i in range(9):
+    l = []
+    for j in range(12):
+        norm_temps[i][j] /= std_temps[i][j]
+
+# ************************
+# Plot mean_temps against months
+
+# set up values for graphs
+ville = ['Reykjavik', 'Oslo', 'Paris', 'New York', 'Tunis', 'Alger', 'Beyrouth', 'Atlan27N40W', 'Dakar']
+values_cities = range(9)
+values_months = range(12)
+
+jet = plt.get_cmap('jet')
+cNorm = colors.Normalize(vmin=0, vmax=values_cities[-1])
+scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
+
+# create new figure
+fig = plt.figure()
+plt.title(' Mean monthly temperatures in 9 regions')
+plt.ylabel('Mean temperatures')
+months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin',
+          'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre']
+plt.xticks(values_months, months, rotation=25)
+plt.xlabel('Months')
+
+for i in values_cities:
+    colorVal = scalarMap.to_rgba(values_cities[i])
+    plt.plot(values_months, mean_temps[i][:], color=colorVal, label=ville[i])
+
+plt.legend()
+plt.show()
+
+fig.savefig('part2_monthly_average_temps_raw.png')
+
+# ************************
+# Plot norm_temps against months
+
+# set up values for graphs
+ville = ['Reykjavik', 'Oslo', 'Paris', 'New York', 'Tunis', 'Alger', 'Beyrouth', 'Atlan27N40W', 'Dakar']
+values_cities = range(9)
+values_months = range(12)
+
+jet = plt.get_cmap('jet')
+cNorm = colors.Normalize(vmin=0, vmax=values_cities[-1])
+scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
+
+# create new figure
+fig = plt.figure()
+plt.title(' Normed mean monthly temperatures in 9 regions')
+plt.ylabel('Normed mean temperatures')
+months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin',
+          'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre']
+plt.xticks(values_months, months, rotation=25)
+plt.xlabel('Months')
+
+for i in values_cities:
+    colorVal = scalarMap.to_rgba(values_cities[i])
+    plt.plot(values_months, norm_temps[i][:], color=colorVal, label=ville[i])
+
+plt.legend()
+plt.show()
+
+fig.savefig('part2_monthly_average_temps_normed.png')

@@ -504,3 +504,25 @@ plt.legend()
 plt.show()
 
 fig.savefig('part2_monthly_average_temps_normed.png')
+
+
+# ************************
+# imad code
+
+# this is the average temperature for each city
+# tMoy = np.mean(villes,axis = 1)
+# tMoy = clim_t2[:, 2:].mean(axis=0)
+tMoy = np.sort(clim_t2[:, 2:].mean(axis=0))
+ville = ['Reykjavik', 'Oslo', 'New York', 'Paris', 'Alger', 'Beyrouth', 'Tunis', 'Atlan27N40W', 'Dakar']
+
+#then the PC1
+PC1 = XU[:,0].astype(float)
+diff = tMoy - PC1
+corrCoef = np.corrcoef(tMoy,PC1)[0][1]
+plt.title("Average monthly temperatures, PC1 values, and their difference")
+plt.plot(values,tMoy,'bo-', label="Average monthly temperatures")
+plt.plot(values,PC1,'ro-', label="PC1 values")
+plt.plot(values,diff,'g-',label="Difference")
+plt.xticks(values, ville, rotation=25)
+plt.legend()
+plt.show()

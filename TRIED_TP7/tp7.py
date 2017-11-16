@@ -37,11 +37,11 @@ steps = [2, 3, 4, 5, 10, 30, 100]
 for j in steps:
 
     # split 1000 into train and validation by taking every other point
-    X_train = X[1::j]
-    Y_train = Y[1::j]
+    X_train = X[0::j]
+    Y_train = Y[0::j]
 
-    X_validation = X[2::j]
-    Y_validation = Y[2::j]
+    X_validation = X[1::j]
+    Y_validation = Y[1::j]
 
     # plot train and validation together
     fig = plt.figure()

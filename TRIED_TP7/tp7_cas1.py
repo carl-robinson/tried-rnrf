@@ -33,11 +33,11 @@ fig.savefig('test_dataset.png')
 
 
 # split 1000 into train and validation by taking every other point
-X_train = X[1::2]
-Y_train = Y[1::2]
+X_train = X[0::2]
+Y_train = Y[0::2]
 
-X_validation = X[2::2]
-Y_validation = Y[2::2]
+X_validation = X[1::2]
+Y_validation = Y[1::2]
 
 # intervals
 # - 1er cas : [-0.75 -0.25] U [1 1.25 ]

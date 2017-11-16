@@ -24,10 +24,13 @@ fig = plt.figure()
 plt.title('Test dataset')
 plt.xlabel('X value')
 plt.ylabel('Y value')
+plt.xlim(-2.2, 2.2)
+plt.ylim(-1.65, 1.6)
 
 plt.scatter(X_test, Y_test, color='r', label='Test', edgecolors='w', s=40)
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('test_dataset.png')
 
@@ -109,6 +112,7 @@ plt.scatter(X_train_masked, Y_train_masked, color='b', label='Train', edgecolors
 plt.scatter(X_validation_masked, Y_validation_masked, color='g', label='Validation', edgecolors='w', s=40)
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('train_valid_cas2.png')
 
@@ -171,6 +175,8 @@ fig = plt.figure()
 plt.title('Train datasets & NN regression curves')
 plt.xlabel('X value')
 plt.ylabel('Y value')
+plt.xlim(-2.2, 2.2)
+plt.ylim(-1.65, 1.6)
 # plot scatter of training data
 plt.scatter(X_train_masked, Y_train_masked, color='tab:gray', label='Train', s=30)
 # plot actual sin function
@@ -192,6 +198,7 @@ for i in values:
     plt.plot(X_train_masked, Y_train_regression_list[i], color=colorVal, label='m = ' + str(m_list[i]))
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('regression_cas2.png')
 
@@ -201,6 +208,8 @@ fig = plt.figure()
 plt.title('Test datasets & NN regression curves')
 plt.xlabel('X value')
 plt.ylabel('Y value')
+plt.xlim(-2.2, 2.2)
+plt.ylim(-1.65, 1.6)
 # plot scatter of training data
 plt.scatter(X_train_masked, Y_train_masked, color='tab:gray', label='Train', s=30)
 
@@ -213,6 +222,7 @@ for i in values:
     plt.plot(X_test, Y_test_regression_list[i], color=colorVal, label='m = ' + str(m_list[i]))
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('regression_test_cas2.png')
 
@@ -264,6 +274,7 @@ plt.plot(m_list, error_validation, 'go-', label='Validation')
 plt.plot(m_list, error_test, 'ro-', label='Test')
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('error_cas2.png')
 
@@ -281,6 +292,7 @@ plt.plot(m_list, error_test_int3, 'ro-', label='Int3: -0.25 < x <  1.00 (data)')
 plt.plot(m_list, error_test_int4, 'yo-', label='Int4:  1.00 < x <  2.00 (gap)')
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('error_cas2_int.png')
 

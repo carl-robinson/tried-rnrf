@@ -28,6 +28,7 @@ plt.ylabel('Y value')
 plt.scatter(X_test, Y_test, color='r', label='Test', edgecolors='w', s=40)
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('test_dataset.png')
 
@@ -113,6 +114,7 @@ plt.scatter(X_train_masked, Y_train_masked, color='b', label='Train', edgecolors
 plt.scatter(X_validation_masked, Y_validation_masked, color='g', label='Validation', edgecolors='w', s=40)
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('train_valid_cas1.png')
 
@@ -175,6 +177,8 @@ fig = plt.figure()
 plt.title('Train datasets & NN regression curves')
 plt.xlabel('X value')
 plt.ylabel('Y value')
+plt.xlim(-2.2, 2.2)
+plt.ylim(-1.65, 1.6)
 # plot scatter of training data
 plt.scatter(X_train_masked, Y_train_masked, color='tab:gray', label='Train', s=30)
 # plot actual sin function
@@ -196,6 +200,7 @@ for i in values:
     plt.plot(X_train_masked, Y_train_regression_list[i], color=colorVal, label='m = ' + str(m_list[i]))
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('regression_cas1.png')
 
@@ -205,6 +210,8 @@ fig = plt.figure()
 plt.title('Test datasets & NN regression curves')
 plt.xlabel('X value')
 plt.ylabel('Y value')
+plt.xlim(-2.2, 2.2)
+plt.ylim(-1.65, 1.6)
 # plot scatter of training data
 plt.scatter(X_train_masked, Y_train_masked, color='tab:gray', label='Train', s=30)
 
@@ -217,6 +224,7 @@ for i in values:
     plt.plot(X_test, Y_test_regression_list[i], color=colorVal, label='m = ' + str(m_list[i]))
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('regression_test_cas1.png')
 
@@ -273,6 +281,7 @@ plt.plot(m_list, error_validation, 'go-', label='Validation')
 plt.plot(m_list, error_test, 'ro-', label='Test')
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('error_cas1.png')
 
@@ -292,6 +301,7 @@ plt.plot(m_list, error_test_int4, 'yo-', label='Int4:  1.00 < x <  1.25 (gap)')
 plt.plot(m_list, error_test_int5, 'mo-', label='Int5:  1.25 < x <  2.00 (data)')
 
 plt.legend()
+plt.tight_layout()
 plt.show()
 fig.savefig('error_cas1_int.png')
 

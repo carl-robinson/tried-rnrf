@@ -14,10 +14,10 @@ from prettytable import PrettyTable
 np.random.seed(0)    # (Re)positionnement du random (ou pas)
 
 # generate 1000 data points for train & validation
-X, Y = TPB01_methodes.schioler(1000, sigma=0.2)
+X, Y = TPB01_methodes.schioler(1000, sigma=0.5)
 
 # generate 500 data points for test set
-X_test, Y_test = TPB01_methodes.schioler(500, sigma=0.2)
+X_test, Y_test = TPB01_methodes.schioler(500, sigma=0.5)
 
 # plot test on its own
 fig = plt.figure()
@@ -32,7 +32,7 @@ plt.scatter(X_test, Y_test, color='r', label='Test', edgecolors='w', s=40)
 plt.legend()
 plt.tight_layout()
 plt.show()
-fig.savefig('test_dataset.png')
+fig.savefig('noisy_test_dataset.png')
 
 
 steps = [2, 3, 4, 5, 10, 30, 100]
@@ -60,7 +60,7 @@ for j in steps:
     plt.legend()
     plt.tight_layout()
     plt.show()
-    fig.savefig('train_valid_n_' + str(j) + '.png')
+    fig.savefig('noisy_train_valid_n_' + str(j) + '.png')
 
 
     # ******************
@@ -144,7 +144,7 @@ for j in steps:
     plt.legend()
     plt.tight_layout()
     plt.show()
-    fig.savefig('regression_n_' + str(j) + '.png')
+    fig.savefig('noisy_regression_n_' + str(j) + '.png')
 
     # **********
     # plot test set regression curves
@@ -168,7 +168,7 @@ for j in steps:
     plt.legend()
     plt.tight_layout()
     plt.show()
-    fig.savefig('regression_test_n_' + str(j) + '.png')
+    fig.savefig('noisy_regression_test_n_' + str(j) + '.png')
 
     # ******************
     # calculate the RMS errors for all dataset/m combos
@@ -200,7 +200,7 @@ for j in steps:
     plt.legend()
     plt.tight_layout()
     plt.show()
-    fig.savefig('error_n_' + str(j) + '.png')
+    fig.savefig('noisy_error_n_' + str(j) + '.png')
 
     # ************************
     # pretty table of error values
@@ -212,7 +212,7 @@ for j in steps:
     ptable.add_column('Test', np.round(error_test, 5))
     ptable.align = 'r'
 
-    with open('out.txt', 'a') as f:
+    with open('noisy_out.txt', 'a') as f:
         f.write('n = ' + str(j) + '\n')
         f.write(str(ptable))
         f.write('\n\n')

@@ -102,7 +102,7 @@ Y_validation_masked = np.array(Y_validation_masked)
 
 # plot train and validation together
 fig = plt.figure()
-plt.title('Train and validation datasets')
+plt.title('Train and validation datasets, step = 2')
 plt.xlabel('X value')
 plt.ylabel('Y value')
 plt.xlim(-2.2, 2.2)
@@ -172,7 +172,7 @@ scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
 # **********
 # plot training set regression curves
 fig = plt.figure()
-plt.title('Train datasets & NN regression curves')
+plt.title('Training dataset & NN regression of training data for varying m')
 plt.xlabel('X value')
 plt.ylabel('Y value')
 plt.xlim(-2.2, 2.2)
@@ -205,7 +205,7 @@ fig.savefig('regression_cas2.png')
 # **********
 # plot test set regression curves
 fig = plt.figure()
-plt.title('Test datasets & NN regression curves')
+plt.title('Training dataset & NN regression of test data for varying m')
 plt.xlabel('X value')
 plt.ylabel('Y value')
 plt.xlim(-2.2, 2.2)
@@ -264,7 +264,7 @@ for i in range(len(m_list)):
 
 # plot error for whole dataset
 fig = plt.figure()
-plt.title('NN regression error for all datasets as a function of m')
+plt.title('NN test data regression error as a function of m')
 plt.xlabel('M perceptrons in hidden layer')
 plt.ylabel('Error')
 
@@ -280,7 +280,7 @@ fig.savefig('error_cas2.png')
 
 # plot intervals in same way
 fig = plt.figure()
-plt.title('NN regression error for test dataset intervals as a function of m')
+plt.title('NN test data interval regression error as a function of m')
 plt.xlabel('M perceptrons in hidden layer')
 plt.ylabel('Error')
 

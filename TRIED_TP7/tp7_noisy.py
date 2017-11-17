@@ -48,7 +48,7 @@ for j in steps:
 
     # plot train and validation together
     fig = plt.figure()
-    plt.title('Train and validation datasets')
+    plt.title('Train and validation datasets, step = ' + str(j) + ', noise sigma = 0.5')
     plt.xlabel('X value')
     plt.ylabel('Y value')
     plt.xlim(-2.2, 2.2)
@@ -116,7 +116,7 @@ for j in steps:
     # **********
     # plot training set regression curves
     fig = plt.figure()
-    plt.title('Train datasets & NN regression curves')
+    plt.title('Training dataset & NN regression of training data for varying m')
     plt.xlabel('X value')
     plt.ylabel('Y value')
     plt.xlim(-2.2, 2.2)
@@ -149,7 +149,7 @@ for j in steps:
     # **********
     # plot test set regression curves
     fig = plt.figure()
-    plt.title('Test datasets & NN regression curves')
+    plt.title('Training dataset & NN regression of test data for varying m')
     plt.xlabel('X value')
     plt.ylabel('Y value')
     plt.xlim(-2.2, 2.2)
@@ -188,7 +188,7 @@ for j in steps:
 
 
     fig = plt.figure()
-    plt.title('NN regression error for all datasets as a function of m')
+    plt.title('NN test data regression error as a function of m')
     plt.xlabel('M perceptrons in hidden layer')
     plt.ylabel('Error')
 

@@ -1,0 +1,38 @@
+======================================================================
+				triedctk
+======================================================================
+- mapclassif : 		      MAPCLASSE.append(CBlabel[bmus[i]]);
+               Remplacé par : MAPCLASSE.append(CBlabel[int(bmus[i])])
+----------------------------------------------------------------------
+- showcarte : Rajout du parametre showcellid, et modification du code
+	      en concéquence
+----------------------------------------------------------------------
+- label2ind : Préservation des labels tels qu'ils sont passés
+----------------------------------------------------------------------
+- showmap : ajout du parametre axis
+----------------------------------------------------------------------
+- showrefpat : ajout des parametres axis, box, grid, ticks, coltext,
+               titlepos, et colfig
+----------------------------------------------------------------------
+- Nouvelles définitions : mbmus, errtopo, reflabfreq, cblabvmaj, 
+			  cblabfreq
+----------------------------------------------------------------------
+- Nouvelles définitions : mbmus, errtopo, reflabfreq, cblabvmaj, 
+			  cblabfreq
+
+======================================================================
+				triedtools
+======================================================================
+- shownpat2D : rajout du paramètre interpolation(='none' par défaut)
+----------------------------------------------------------------------
+- Nouvelles définitions : gen2duni
+----------------------------------------------------------------------
+
+
+______________________________________________________________________
+. Paramètre d'interpolation de imshow : choisir entre interp et interpolation
+interp : ctk.showmap, ctk.showrefactiv, SOM.hit_map_cluster_number 
+interpolation : tls.shownpat2D :
+
+. Statuer sur dans quelle cas choisir le type list ou array 
+______________________________________________________________________

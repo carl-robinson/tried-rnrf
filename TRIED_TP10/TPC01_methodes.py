@@ -319,11 +319,11 @@ def app_chiffres(Xapp, classnames, infile) :
     tracking = 'on';  # niveau de suivi de l'apprentissage
     #____________
     # paramètres 1ere étape :-> Variation rapide de la temperature
-    epochs1 = 100; radius_ini1 = 20.00;  radius_fin1 = 2.00;
+    epochs1 = 50; radius_ini1 = 20.00;  radius_fin1 = 10.00;
     etape1=[epochs1,radius_ini1,radius_fin1];
     #
     # paramètres 2ème étape :-> Variation fine de la temperature
-    epochs2 = 100; radius_ini2 = 2.00;  radius_fin2 = 0.10;
+    epochs2 = 100; radius_ini2 = 10.00;  radius_fin2 = 0.10;
     etape2=[epochs2,radius_ini2,radius_fin2];
     #
     # Avec Sompy, les paramètres des 2 étapes sont passés en même temps pour l'

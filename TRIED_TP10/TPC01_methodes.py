@@ -305,7 +305,7 @@ def app_chiffres(Xapp, classnames, infile) :
     #==================================================================
     # Definition de la CARTE TOPOLOGIQUE
     #------------------------------------------------------------------
-    nlmap  = 12;  ncmap = 12; # Nombre de lignes et nombre de colones
+    nlmap  = 5;  ncmap = 5; # Nombre de lignes et nombre de colones
     #
     # Creation d'une structure de carte
 #    initmethod='pca'; # 'random', 'pca'
@@ -319,11 +319,17 @@ def app_chiffres(Xapp, classnames, infile) :
     tracking = 'on';  # niveau de suivi de l'apprentissage
     #____________
     # paramètres 1ere étape :-> Variation rapide de la temperature
-    epochs1 = 50; radius_ini1 = 20.00;  radius_fin1 = 10.00;
+    # in1 = 20.0
+    # in2 = 10.0
+    # in3 = 0.10
+    in1 = 20.0
+    in2 = 10.0
+    in3 = 0.1
+    epochs1 = 50; radius_ini1 = in1;  radius_fin1 = in2;
     etape1=[epochs1,radius_ini1,radius_fin1];
     #
     # paramètres 2ème étape :-> Variation fine de la temperature
-    epochs2 = 100; radius_ini2 = 10.00;  radius_fin2 = 0.10;
+    epochs2 = 100; radius_ini2 = in2;  radius_fin2 = in3;
     etape2=[epochs2,radius_ini2,radius_fin2];
     #
     # Avec Sompy, les paramètres des 2 étapes sont passés en même temps pour l'

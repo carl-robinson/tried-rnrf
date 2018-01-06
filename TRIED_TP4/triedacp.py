@@ -54,7 +54,7 @@ def phinertie (VAPU) : # Inertie
     INERTIE   = VAPU/sumI;  
     ICUM      = np.cumsum(INERTIE); 
     #print('\nInertie=', INERTIE, '\nInertie cum.=',ICUM);
-    plt.figure();
+    fig = plt.figure();
     index = np.arange(p);
     plt.bar(index+.6,INERTIE);
     plt.plot(index+1, ICUM, 'r-*');
@@ -64,7 +64,7 @@ def phinertie (VAPU) : # Inertie
     plt.legend(["Inertie cumulée", "Inertie"], loc=2);
     plt.xlabel("Axes principaux");
     plt.ylabel("Poucentage d'Inertie des valeurs propres");
-    return INERTIE, ICUM;
+    return INERTIE, ICUM, fig;
 
 
 def qltctr2 (XU, VAPU) :
